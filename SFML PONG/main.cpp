@@ -1,24 +1,46 @@
 #include <SFML/Graphics.hpp>
 
+using namespace sf;
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    std::srand(static_cast<unsigned int>(std::time(NULL)));
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    const float pi = 3.14159f;
+    const int gameWidth = 800;
+    const int gameHeight = 600;
+    Vector2f paddleSize(25, 100);
+    float ballRadius = 10.f;
 
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
 
-    return 0;
+    RenderWindow window(VideoMode(gameWidth, gameHeight, 32), "SFML Pong by Manuel Dantuono",
+        Style::Titlebar | Style::Close);
+    window.setVerticalSyncEnabled(true);
+
+    // Paddle Izquierdo
+    RectangleShape leftPaddle;
+    leftPaddle.setSize(paddleSize - Vector2f(3, 3));
+    leftPaddle.setOutlineThickness(1);
+    leftPaddle.setOutlineColor(Color::White);
+    leftPaddle.setFillColor(Color(255, 0, 0));
+    leftPaddle.setOrigin(paddleSize / 2.f);
+
+    // Paddle Derecho
+    RectangleShape rightPaddle;
+    rightPaddle.setSize(paddleSize - Vector2f(3, 3));
+    rightPaddle.setOutlineThickness(1);
+    rightPaddle.setOutlineColor(Color::White);
+    rightPaddle.setFillColor(Color(0, 0, 255));
+    rightPaddle.setOrigin(paddleSize / 2.f);
+
+    // Pelota
+    CircleShape ball;
+    ball.setRadius(ballRadius - 3);
+    ball.setOutlineThickness(1);
+    ball.setOutlineColor(Color::White);
+    ball.setFillColor(Color::Green);
+    ball.setOrigin(ballRadius / 2, ballRadius / 2);
+
+
+
 }
