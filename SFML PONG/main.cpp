@@ -1,4 +1,8 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <cmath>
+#include <ctime>
+#include <cstdlib>
 
 using namespace sf;
 
@@ -17,7 +21,17 @@ int main()
         Style::Titlebar | Style::Close);
     window.setVerticalSyncEnabled(true);
 
-    // Paddle Izquierdo
+    SoundBuffer ballSoundBuffer;
+    if (!ballSoundBuffer.loadFromFile("resources/ball.wav"))
+        return EXIT_FAILURE;
+    Sound ballSound(ballSoundBuffer);
+
+    // Load the text font
+    Font font;
+    if (!font.loadFromFile("resources/sansation.ttf"))
+        return EXIT_FAILURE;
+
+    // paddle Izquierdo
     RectangleShape leftPaddle;
     leftPaddle.setSize(paddleSize - Vector2f(3, 3));
     leftPaddle.setOutlineThickness(1);
@@ -25,7 +39,7 @@ int main()
     leftPaddle.setFillColor(Color(255, 0, 0));
     leftPaddle.setOrigin(paddleSize / 2.f);
 
-    // Paddle Derecho
+    // right Paddle
     RectangleShape rightPaddle;
     rightPaddle.setSize(paddleSize - Vector2f(3, 3));
     rightPaddle.setOutlineThickness(1);
@@ -33,7 +47,7 @@ int main()
     rightPaddle.setFillColor(Color(0, 0, 255));
     rightPaddle.setOrigin(paddleSize / 2.f);
 
-    // Pelota
+    // ball
     CircleShape ball;
     ball.setRadius(ballRadius - 3);
     ball.setOutlineThickness(1);
@@ -41,7 +55,7 @@ int main()
     ball.setFillColor(Color::Green);
     ball.setOrigin(ballRadius / 2, ballRadius / 2);
 
-    // Definiendo las propiedades de las paletas
+    // define Propietes Paddles
     Clock AITimer;
     const Time AITime = seconds(0.1f);
     const float paddleSpeed = 400.f;
@@ -50,11 +64,11 @@ int main()
     float ballAngle = 0.f; // to be changed later
 
     Text pauseMessage;
-    // Agregar Font despues -> pauseMessage.setFont(font);
+    pauseMessage.setFont(font);
     pauseMessage.setCharacterSize(40);
-    pauseMessage.setPosition(170.f, 150.f);
-    pauseMessage.setFillColor(Color::White);
-    pauseMessage.setString("Presione SPACE para empezar a jugar!");
+    pauseMessage.setPosition(200.f, 200.f);
+    pauseMessage.setFillColor(Color::Red);
+    pauseMessage.setString("Presione SPACE \npara empezar a jugar!");
 
     Clock clock;
     bool isPlaying = false;
@@ -148,13 +162,13 @@ int main()
             }
             if (ball.getPosition().y - ballRadius < 0.f)
             {
-                // Agregarle sonido  -> ballSound.play();
+                ballSound.play();
                 ballAngle = -ballAngle;
                 ball.setPosition(ball.getPosition().x, ballRadius + 0.1f);
             }
             if (ball.getPosition().y + ballRadius > gameHeight)
             {
-                // Agregarle sonido  -> ballSound.play();
+                ballSound.play();
                 ballAngle = -ballAngle;
                 ball.setPosition(ball.getPosition().x, gameHeight - ballRadius - 0.1f);
             }
@@ -171,7 +185,7 @@ int main()
                 else
                     ballAngle = pi - ballAngle - (std::rand() % 20) * pi / 180;
 
-                // Agregarle sonido  -> ballSound.play();
+                ballSound.play();
                 ball.setPosition(leftPaddle.getPosition().x + ballRadius + paddleSize.x / 2 + 0.1f, ball.getPosition().y);
             }
 
@@ -186,7 +200,7 @@ int main()
                 else
                     ballAngle = pi - ballAngle - (std::rand() % 20) * pi / 180;
 
-                // Agregarle sonido  -> ballSound.play();
+                ballSound.play();
                 ball.setPosition(rightPaddle.getPosition().x - ballRadius - paddleSize.x / 2 - 0.1f, ball.getPosition().y);
             }
         }
