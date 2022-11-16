@@ -1,0 +1,3 @@
+C:\Users\Manuel Angel\source\repos\SFML Proyecto\Debug\SFML Proyecto.exe
+D:\Escritorio\SFML PONG\Debug\SFML Proyecto.exe
+D:\Escritorio\SFML-Pong\SFML PONG\Debug\SFML Proyecto.exe
