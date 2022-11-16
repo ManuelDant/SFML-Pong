@@ -21,7 +21,7 @@ int main()
         Style::Titlebar | Style::Close);
     window.setVerticalSyncEnabled(true);
 
-    SoundBuffer ballSoundBuffer;
+    SoundBuffer ballSoundBuffer; // Sonidos y Fuentes sacados del Tutorial de SFML que viene incluido con la descarga del mismo.
     if (!ballSoundBuffer.loadFromFile("resources/ball.wav"))
         return EXIT_FAILURE;
     Sound ballSound(ballSoundBuffer);
